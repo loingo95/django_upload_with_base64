@@ -1,0 +1,4 @@
+.python-version
+media
+*__pycache__*
+db.sqlite3
