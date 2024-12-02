@@ -6,6 +6,8 @@ import os
 from django.core.files.base import ContentFile
 from django.conf import settings
 from rest_framework import serializers
+import time
+from decimal import Decimal
 
 class Base64FileSerializer(serializers.Serializer):
     file = serializers.CharField()  # This will hold the base64 string
@@ -18,7 +20,11 @@ class Base64FileSerializer(serializers.Serializer):
         # Split and decode the base64 data
         format, base64_str = value.split(';base64,')
         file_ext = format.split('/')[-1]  # Extract file extension from format
+
+        start_timestamp = time.time()
         file_data = base64.b64decode(base64_str)
+        end_timestamp = time.time()
+        print(f"Decoding time: {Decimal(end_timestamp - start_timestamp)}s")
 
         # Generate a unique filename
         file_name = f"{uuid.uuid4()}.{file_ext}"
